@@ -36,7 +36,9 @@ local function update_contents(blocks, shift_by, include_path)
     end,
     -- If image paths are relative then prepend include file path
     Image = function (image)
-      if path.is_relative(image.src) then
+      if string.find(image.src, "http") then
+        image.src = image.src      
+      elseif path.is_relative(image.src) then
         image.src = path.normalize(path.join({include_path, image.src}))
       end
       return image
